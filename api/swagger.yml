@@ -1,0 +1,12 @@
+openapi: 3.0.0
+info: 
+  version: 1.0.0
+  title: Quick Dash
+  description: API that the dashboard will be able to use
+paths:
+  /weather:
+    get:
+      description: "Get current weather data"
+      responses:
+        200:
+          description: Weather data
