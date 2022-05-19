@@ -10,3 +10,9 @@ paths:
       responses:
         200:
           description: Weather data
+  /dressmyrun: 
+    get:
+      description: "Gets appropriate atire for runs"
+      responses: 
+        200:
+          description: dressmyrun
