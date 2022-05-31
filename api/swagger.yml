@@ -63,15 +63,68 @@ paths:
           description: External APIs no workey
         
           
-  /dressmyrun: 
+  /stocks: 
+  # Need to get list of current tracked stocks, don't need a get since list is stored in browser? (UI)
     get:
       tags:
-      - "Stocks"
-      description: "Gets appropriate atire for runs"
-      responses: 
+        - "Stocks"
+      description: "Get current stocks data"
+      requestBody:
+        required: true
+        content:
+          applications/json:
+            schema:
+              type: object
+              properties:
+                stockName: 
+                  type: string
+              required:
+                - stockName
+            example: 
+              stockName: "AAPL"
+      responses:
         200:
-          description: dressmyrun
+          description: Stock data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Price'
+        404:
+          description: Invalid Stock Code
+        504:
+          description: External APIs no workey
 
+
+  /QR Code:
+    get:
+      tags:
+        - "QR Code"
+      description: "Generate QR Code"
+      requestBody:
+        required: true
+        content:
+          applications/json:
+            schema:
+              type: object
+              properties:
+                SSID: 
+                  type: string
+                PWD: 
+                  type: string
+              required:
+                - SSID
+                - PWD
+      responses:
+        200:
+          description: QR Image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QR'
+        404:
+          description: Incorrect SSID or PWD
+        504:
+          description: External APIs no workey
 components:
   schemas:
     Weather: 
@@ -90,5 +143,21 @@ components:
           format: int32
         direction:
           type: integer
-        
+    Price:
+      type: object
+      properties:
+        dollars:
+          type: number
+          description: Price of stock at current time
+          example: 12.05
+    QR: 
+      type: object
+      properties:
+        SSID: 
+          type: string
+          description: Name of network
+        PWD:
+          type: string
+          description: Network password
+          
   
