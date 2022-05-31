@@ -3,10 +3,53 @@ info:
   version: 1.0.0
   title: Quick Dash
   description: API that the dashboard will be able to use
+
+tags:
+- name: "Weather"
+  description: "All services available related to weather"
+- name: "Stocks"
+  description: "Services related to stocks"
 paths:
   /weather:
+    # post:
+    #   tags:
+    #     - "Weather"
+    #   description: "Sending info to server to store about what weather to track"
+    #   requestBody:
+    #     required: true
+    #     content:
+    #       applications/json:
+    #         schema:
+    #           type: object
+    #           properties:
+    #             zip: 
+    #               type: string
+    #           required:
+    #             - zip
+    #         example: 
+    #           zip: "02150"
+    #   responses:
+    #     200:
+    #       description: Success
+    #     400:
+    #       description: No bueno
     get:
+      tags:
+        - "Weather"
       description: "Get current weather data"
+      requestBody:
+        required: true
+        content:
+          applications/json:
+            schema:
+              type: object
+              properties:
+                zip: 
+                  type: string
+              required:
+                - zip
+            example: 
+              zip: "02150"
       responses:
         200:
           description: Weather data
@@ -14,13 +57,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Weather'
-
-
-        400:
-          description: No bueno
+        404:
+          description: Invalid Zip Code
+        504:
+          description: External APIs no workey
+        
           
   /dressmyrun: 
     get:
+      tags:
+      - "Stocks"
       description: "Gets appropriate atire for runs"
       responses: 
         200:
