@@ -9,6 +9,8 @@ tags:
   description: "All services available related to weather"
 - name: "Stocks"
   description: "Services related to stocks"
+- name: "QR Code"
+  description: "Service related to QR code"
 paths:
   /weather:
     # post:
@@ -95,7 +97,7 @@ paths:
           description: External APIs no workey
 
 
-  /QR Code:
+  /QR:
     get:
       tags:
         - "QR Code"
@@ -121,8 +123,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QR'
-        404:
-          description: Incorrect SSID or PWD
+
         504:
           description: External APIs no workey
 components:
@@ -153,11 +154,8 @@ components:
     QR: 
       type: object
       properties:
-        SSID: 
+        URL: 
           type: string
-          description: Name of network
-        PWD:
-          type: string
-          description: Network password
-          
+          description: Link to image
+
   
