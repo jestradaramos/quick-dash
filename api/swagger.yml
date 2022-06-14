@@ -1,161 +1,132 @@
 openapi: 3.0.0
 info: 
   version: 1.0.0
-  title: Quick Dash
-  description: API that the dashboard will be able to use
+  title: Estrava
+  description: Cool Estrava tings
 
 tags:
-- name: "Weather"
-  description: "All services available related to weather"
-- name: "Stocks"
-  description: "Services related to stocks"
-- name: "QR Code"
-  description: "Service related to QR code"
+- name: "users"
+- name: "runs"
+
 paths:
-  /weather:
-    # post:
-    #   tags:
-    #     - "Weather"
-    #   description: "Sending info to server to store about what weather to track"
-    #   requestBody:
-    #     required: true
-    #     content:
-    #       applications/json:
-    #         schema:
-    #           type: object
-    #           properties:
-    #             zip: 
-    #               type: string
-    #           required:
-    #             - zip
-    #         example: 
-    #           zip: "02150"
-    #   responses:
-    #     200:
-    #       description: Success
-    #     400:
-    #       description: No bueno
-    get:
+  /user:
+    post: 
       tags:
-        - "Weather"
-      description: "Get current weather data"
-      requestBody:
+        - "users"
+      requestBody: 
         required: true
         content:
           applications/json:
             schema:
               type: object
               properties:
-                zip: 
+                name:
                   type: string
-              required:
-                - zip
-            example: 
-              zip: "02150"
+                username:
+                  type: string
+                password: 
+                  type: string
+              required: 
+                - name
+                - username
+                - password
       responses:
-        200:
-          description: Weather data
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Weather'
-        404:
-          description: Invalid Zip Code
-        504:
-          description: External APIs no workey
-        
+          201: 
+            description: Made new account
+          409:
+            description: User already exists
+          500:
+            description: Internal API no workey
+          418: 
+            description: Teapot!
+
+  /run:
+    post: 
+      tags:
+        - "runs"
+      requestBody: 
+        required: true
+        content:
+          applications/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                username:
+                  type: string
+                distance: 
+                  type: number
+                time:
+                  type: string
+                  format: date-time
+                date:
+                  type: string
+                  format: date
+              required: 
+                - name
+                - username
+                - distance
+                - time
+                - date
+      responses:
+          201: 
+            description: Created new run
+          400:
+            description: Error no bueno
+          500:
+            description: Internal API no workey
+    get: 
+      tags:
+        - "runs"
+      parameters:
+        - in: query
+          name: title 
+          schema:
+            type: string
+        - in: query
+          name: date
+          schema: 
+            type: string
+        - in : query
+          name: username
+          required: true
+          schema:
+            type: string
           
-  /stocks: 
-  # Need to get list of current tracked stocks, don't need a get since list is stored in browser? (UI)
-    get:
-      tags:
-        - "Stocks"
-      description: "Get current stocks data"
-      requestBody:
-        required: true
-        content:
-          applications/json:
-            schema:
-              type: object
-              properties:
-                stockName: 
-                  type: string
-              required:
-                - stockName
-            example: 
-              stockName: "AAPL"
       responses:
-        200:
-          description: Stock data
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Price'
-        404:
-          description: Invalid Stock Code
-        504:
-          description: External APIs no workey
+        200: 
+          description: Found runs
+        404: 
+          description: No content
+        500:
+          description: Internal API error
 
 
-  /QR:
-    get:
-      tags:
-        - "QR Code"
-      description: "Generate QR Code"
-      requestBody:
-        required: true
-        content:
-          applications/json:
-            schema:
-              type: object
-              properties:
-                SSID: 
-                  type: string
-                PWD: 
-                  type: string
-              required:
-                - SSID
-                - PWD
-      responses:
-        200:
-          description: QR Image
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/QR'
-
-        504:
-          description: External APIs no workey
 components:
   schemas:
-    Weather: 
+    Users:
       type: object
       properties:
-        temp: 
-          type: integer
-          format: int32
-        wind: 
-          $ref: '#/components/schemas/Wind'
-    Wind:
-      type: object
-      properties: 
-        speed:
-          type: integer
-          format: int32
-        direction:
-          type: integer
-    Price:
-      type: object
-      properties:
-        dollars:
-          type: number
-          description: Price of stock at current time
-          example: 12.05
-    QR: 
-      type: object
-      properties:
-        URL: 
+        name:
           type: string
-          description: Link to image
+        username:
+          type: string
+        password:
+          type: string
+    Run: 
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        username:
+          type: string
+        distance:
+          type: number
+        time:
+          type: string
+        date:
+          type: string
 
-  
