@@ -102,7 +102,67 @@ paths:
         500:
           description: Internal API error
 
-
+  /testing:
+    post: 
+      tags:
+        - "runs"
+      requestBody: 
+        required: true
+        content:
+          applications/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                username:
+                  type: string
+                distance: 
+                  type: number
+                time:
+                  type: string
+                  format: date-time
+                date:
+                  type: string
+                  format: date
+              required: 
+                - name
+                - username
+                - distance
+                - time
+                - date
+      responses:
+          201: 
+            description: Created new run
+          400:
+            description: Error no bueno
+          500:
+            description: Internal API no workey
+    get: 
+      tags:
+        - "runs"
+      parameters:
+        - in: query
+          name: title 
+          schema:
+            type: string
+        - in: query
+          name: date
+          schema: 
+            type: string
+        - in : query
+          name: username
+          required: true
+          schema:
+            type: string
+          
+      responses:
+        200: 
+          description: Found runs
+        404: 
+          description: No content
+        500:
+          description: Internal API error
 components:
   schemas:
     Users:

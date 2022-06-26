@@ -1,0 +1,188 @@
+openapi: 3.0.0
+info:
+  description: Cool Estrava tings
+  title: Estrava
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- name: users
+- name: runs
+paths:
+  /user:
+    post:
+      requestBody:
+        content:
+          applications/json:
+            schema:
+              $ref: '#/components/schemas/_user_post_request'
+        required: true
+      responses:
+        "201":
+          description: Made new account
+        "409":
+          description: User already exists
+        "500":
+          description: Internal API no workey
+        "418":
+          description: Teapot!
+      tags:
+      - users
+  /run:
+    get:
+      parameters:
+      - explode: true
+        in: query
+        name: title
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: date
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: username
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Found runs
+        "404":
+          description: No content
+        "500":
+          description: Internal API error
+      tags:
+      - runs
+    post:
+      requestBody:
+        content:
+          applications/json:
+            schema:
+              $ref: '#/components/schemas/_run_get_request'
+        required: true
+      responses:
+        "201":
+          description: Created new run
+        "400":
+          description: Error no bueno
+        "500":
+          description: Internal API no workey
+      tags:
+      - runs
+  /testing:
+    get:
+      parameters:
+      - explode: true
+        in: query
+        name: title
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: date
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: username
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Found runs
+        "404":
+          description: No content
+        "500":
+          description: Internal API error
+      tags:
+      - runs
+    post:
+      requestBody:
+        content:
+          applications/json:
+            schema:
+              $ref: '#/components/schemas/_run_get_request'
+        required: true
+      responses:
+        "201":
+          description: Created new run
+        "400":
+          description: Error no bueno
+        "500":
+          description: Internal API no workey
+      tags:
+      - runs
+components:
+  schemas:
+    Users:
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+      type: object
+    Run:
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        username:
+          type: string
+        distance:
+          type: number
+        time:
+          type: string
+        date:
+          type: string
+      type: object
+    _user_post_request:
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+      required:
+      - name
+      - password
+      - username
+      type: object
+    _run_get_request:
+      properties:
+        title:
+          type: string
+        username:
+          type: string
+        distance:
+          type: number
+        time:
+          format: date-time
+          type: string
+        date:
+          format: date
+          type: string
+      required:
+      - date
+      - distance
+      - name
+      - time
+      - username
+      type: object
