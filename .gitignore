@@ -1,0 +1,4 @@
+.openapi-generator-ignore
+.openapi-generator/
+openapi-generator-cli-6.0.0.jar
+quick-dash
